@@ -1,9 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
+<h1>
   <%= @restaurant.name %>
-</p>
+</h1>
 
 <p>
   <strong>Address:</strong>
@@ -12,7 +11,7 @@
 
 <p>
   <strong>Phone:</strong>
-  <%= @restaurant.phone %>
+  <%= @restaurant.phone_number %>
 </p>
 
 <p>
@@ -20,5 +19,22 @@
   <%= @restaurant.category %>
 </p>
 
+<p>
+  <strong>Reviews:</strong>
+  <% ratings = [] %>
+  <% @restaurant.reviews.each do |review| %>
+    <li><strong>(rating: <%= review.rating %>)</strong> <%= review.content  %></li>
+    <% ratings << review.rating %>
+  <%end%>
+  <br/>
+  <strong>Average rating: <% average = ratings.map {|rating| rating.to_i} %>
+    <% if ratings == 0 || ratings.empty? %>
+      <%= 0%>
+    <% else %>
+      <%= average.sum / ratings.size %></strong>
+    <% end %>
+</p>
+
 <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
-<%= link_to 'Back', restaurants_path %>
+<%= link_to 'Back', restaurants_path %> |
+<%= link_to 'Add a review', new_restaurant_review_path(@restaurant) %>
